@@ -1,6 +1,11 @@
 /*
+ * Author : David Cohen, 
+ * Date   : 8 January 2018
+ * Copyright (C) 2018 David Cohen
+ *
  * Equal Logs code
- * Use Mutex to synchronize multiple thread to write in the same log file during WANTED_RUNTIME seconds
+ * Use Mutex to synchronize multiple threads to write in the same log file during WANTED_RUNTIME seconds
+ * 
  */
 #define _CRT_SECURE_NO_WARNINGS
 #include <windows.h>
@@ -10,8 +15,9 @@
 using namespace std;
 
 #define MAX_INSTANCE 20
-#define THREADCOUNT 2
+#define THREADCOUNT 20
 #define WANTED_RUNTIME 30
+#define LOG_FILE_PATH "log.txt"
 #define LOG_MSG "Hello World! I'm thread nb %d which slept during %d milliseconds \r\n"
 #define CANT_RELEASE_MUTEX_MSG "Ohhh Grrrr, can't release mutex ?!"
 #define WRITE_FAILED "Terminal failure: Unable to write to file.\n"
@@ -68,7 +74,7 @@ DWORD WriteToLogFile(LPVOID lpParam) {
 
         sprintf(buffer, LOG_MSG, threadNb, rand_sleep);
         logWrite(buffer,
-            "log.txt");
+            LOG_FILE_PATH);
         Sleep(rand_sleep);
     }
     return 0;
